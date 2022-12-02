@@ -2290,7 +2290,7 @@
         (split-string cals-list "\n\n")))
 
 (defun set-top-3-cals (top-3-list elf-list)
-    (let ((lowest (car (sort top-3-list '<)))
+    (let ((lowest (car (setq top-3-list (sort top-3-list '<))))
           (elf-sum (apply '+ elf-list)))
         (if (> elf-sum lowest)
             (progn
@@ -2298,7 +2298,7 @@
                 (setq top-3-list (push elf-sum top-3-list))))))
 
 (set-top-3-cals '(15 4 5 9) '(6 1 10))
-(set-top-3-cals '(44 15 5) '(6 1 10))
+(set-top-3-cals '(44 15 5) '(6 1 10 1 1 1))
 
 (defun separate-calories-per-elf (input)
     (let ((most-cals 0))
@@ -2314,7 +2314,10 @@
         (setq elf-cals-list (get-cals-per-elf-numerical-list input))
         ;; array with top three cal counts
         ;; list with top three cal counts
-        (setq top-3 (set-top-3-cals top-3 elf-cals-list))))
+        (dolist (cals-elf elf-cals-list)
+            (setq top-3 (set-top-3-cals top-3 cals-elf)))
+
+        ))
 
 (separate-calories-per-elf total-cals)
 
