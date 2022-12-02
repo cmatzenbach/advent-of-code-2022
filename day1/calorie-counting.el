@@ -2313,11 +2313,29 @@
           (top-3 '(0 0 0)))
         (setq elf-cals-list (get-cals-per-elf-numerical-list input))
         (dolist (cals-elf elf-cals-list)
-            (setq top-3 (set-top-3-cals top-3 cals-elf)))))
+            ;; (setq top-3 (set-top-3-cals top-3 cals-elf))
+            (print cals-elf)
+            )
+        ))
+
+(set-top-3-cals '(0 0 0) '(10062 15651 1271 14355 7220))
 
 (separate-calories-per-elf total-cals)
 
 (calories-per-top-3-elves total-cals)
+
+(calories-per-top-3-elves
+    "10
+10
+10
+
+20
+20
+20
+
+30
+30
+30")
 
 
 
