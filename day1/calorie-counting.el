@@ -39,8 +39,7 @@
 
 ;; 10000
 
-(setq total-cals
-    "10062
+(setq total-cals "10062
 15651
 1271
 14355
@@ -2285,20 +2284,49 @@
 2406
 5967")
 
+(defun get-cals-per-elf-numerical-list (cals-list)
+    (mapcar #'(lambda (elf)
+                  (mapcar #'string-to-number (split-string elf "\n")))
+        (split-string cals-list "\n\n")))
+
+(defun set-top-3-cals (top-list elf-list)
+    (catch 'new-top-3
+        (dolist (top (sort top-list '<))
+            (print top-list)
+            (let ((elf-sum (apply '+ elf-list)))
+                (if (> elf-sum top)
+                    (progn
+                        (setq top-list (delete top top-list))
+                        (setq top-list (push elf-sum top-list))
+                        (throw 'new-top-3 top-list)))))))
+
+(set-top-3-cals '(15 5 9) '(6 1 10))
+
+(push 'a '(b c))
+(setq l '(a b))
+(push 'c l)
+
+
 (defun separate-calories-per-elf (input)
-    (let ((indiv-cals)
-             (most-cals 0))
-        (setq indiv-cals (split-string input "\n\n"))
-        (setq cals-list (mapcar #'(lambda (elf)
-                                      (mapcar #'string-to-number
-                                          (split-string elf "\n")))
-                            indiv-cals))
+    (let ((most-cals 0))
+        (setq cals-list (get-cals-per-elf-numerical-list input))
         (dolist (cals-elf cals-list)
             (if (> (apply '+ cals-elf) most-cals)
                 (setq most-cals (apply '+ cals-elf))))
         (print most-cals)))
 
+(defun calories-per-top-3-elves (input)
+    (let ((most-cals 0)
+             (top-3
+                 '(0 0 0)))
+        (setq cals-list (get-cals-per-elf-numerical-list input))
+        ;; array with top three cal counts
+        ;; list with top three cal counts
+        (dolist (cals-elf cals-list))))
+
 (separate-calories-per-elf total-cals)
+
+;; (calories-per-top-3-elves total-cals)
 
 
 
