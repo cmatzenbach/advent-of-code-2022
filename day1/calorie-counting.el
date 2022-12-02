@@ -2312,12 +2312,8 @@
     (let ((most-cals 0)
           (top-3 '(0 0 0)))
         (setq elf-cals-list (get-cals-per-elf-numerical-list input))
-        ;; array with top three cal counts
-        ;; list with top three cal counts
         (dolist (cals-elf elf-cals-list)
-            (setq top-3 (set-top-3-cals top-3 cals-elf)))
-
-        ))
+            (setq top-3 (set-top-3-cals top-3 cals-elf)))))
 
 (separate-calories-per-elf total-cals)
 
