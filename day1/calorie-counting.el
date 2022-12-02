@@ -2289,23 +2289,16 @@
                   (mapcar #'string-to-number (split-string elf "\n")))
         (split-string cals-list "\n\n")))
 
-(defun set-top-3-cals (top-list elf-list)
-    (catch 'new-top-3
-        (dolist (top (sort top-list '<))
-            (print top-list)
-            (let ((elf-sum (apply '+ elf-list)))
-                (if (> elf-sum top)
-                    (progn
-                        (setq top-list (delete top top-list))
-                        (setq top-list (push elf-sum top-list))
-                        (throw 'new-top-3 top-list)))))))
+(defun set-top-3-cals (top-3-list elf-list)
+    (let ((lowest (car (sort top-3-list '<)))
+          (elf-sum (apply '+ elf-list)))
+        (if (> elf-sum lowest)
+            (progn
+                (setq top-3-list (delete lowest top-3-list))
+                (setq top-3-list (push elf-sum top-3-list))))))
 
-(set-top-3-cals '(15 5 9) '(6 1 10))
-
-(push 'a '(b c))
-(setq l '(a b))
-(push 'c l)
-
+(set-top-3-cals '(15 4 5 9) '(6 1 10))
+(set-top-3-cals '(44 15 5) '(6 1 10))
 
 (defun separate-calories-per-elf (input)
     (let ((most-cals 0))
@@ -2317,8 +2310,7 @@
 
 (defun calories-per-top-3-elves (input)
     (let ((most-cals 0)
-             (top-3
-                 '(0 0 0)))
+             (top-3 '(0 0 0)))
         (setq cals-list (get-cals-per-elf-numerical-list input))
         ;; array with top three cal counts
         ;; list with top three cal counts
