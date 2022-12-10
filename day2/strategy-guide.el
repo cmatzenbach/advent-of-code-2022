@@ -28,6 +28,38 @@
 (defvar *strategy-guide* (file-to-string "./data.el"))
 (defvar *t-strategy-guide* (file-to-string "./test-data.el"))
 
+(defun separate-round-data-to-lists (data)
+    (remq nil (mapcar #'(lambda (round)
+                     (if (not (string-empty-p round))
+                         (list (substring round 0 1) (substring round 2 3))))
+           (split-string data "\n"))))
+
+(separate-round-data-to-lists *t-strategy-guide*)
+
+;; first-col
+;; A - Rock
+;; B - Paper
+;; C - Scissors
+
+;; second-col
+;; X - Rock
+;; Y - Paper
+;; Z - Scissors
+
+;; score-per-round
+;; 1 - Rock
+;; 2 - Paper
+;; 3 - Scissors
+;; 0 - loss
+;; 3 - draw
+;; 6 - win
+
+;; *t-strategy-guide*
+;; A Y
+;; B X
+;; C Z
+
+
 
 (provide 'strategy-guide)
 ;;; strategy-guide.el ends here

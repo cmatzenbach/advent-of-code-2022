@@ -1,4 +1,4 @@
-"C Z
+C Z
 B Y
 C X
 B Z
@@ -2498,4 +2498,3 @@ B Y
 C Y
 B Y
 A Y
-"
