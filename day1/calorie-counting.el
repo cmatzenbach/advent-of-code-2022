@@ -24,7 +24,7 @@
 ;;; Code:
 (load-file "../utils/file-to-string.el")
 
-(setq total-cals (file-to-string "./data.el"))
+(defvar *total-cals* (file-to-string "./data.el"))
 
 (defun get-cals-per-elf-numerical-list (cals-list)
     (mapcar #'(lambda (elf)
@@ -80,9 +80,9 @@
 8")
 (calories-per-top-3-elves test-elves)
 
-(separate-calories-per-elf total-cals)
+(separate-calories-per-elf *total-cals*)
 
-(calories-per-top-3-elves total-cals)
+(calories-per-top-3-elves *total-cals*)
 
 (calories-per-top-3-elves
     "10
