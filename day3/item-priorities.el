@@ -20,14 +20,28 @@
 
 ;;; Commentary:
 
-;;
+
 
 ;;; Code:
 (load-file "../utils/file-to-string.el")
+(load-file "./letter-mappings.el")
 
 (defvar *rucksack* (file-to-string "./data.el"))
 (defvar *t-rucksack* (file-to-string "./test-data.el"))
 
+(defvar *letter-weights* (make-hash-table :test 'equal))
+(defun complete-weight-hash-table ()
+    (dolist (letter-map *letter-mappings*)
+        (puthash (car letter-map) (car (cdr letter-map)) *letter-weights*)))
+(complete-weight-hash-table)
+
+;; first split strings in half
+(defun split-str-half (str)
+    (let ((len (length str)))
+        (list (substring str 0 (/ len 2)) (substring str (/ len 2) len))))
+
+;; find matches between strings
+(defun )
 
 
 (provide 'item-priorities)
