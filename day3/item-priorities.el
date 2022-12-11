@@ -41,7 +41,15 @@
         (list (substring str 0 (/ len 2)) (substring str (/ len 2) len))))
 
 ;; find matches between strings
-(defun )
+(defun find-match-in-string (str letter)
+    (let ((match))
+        (mapc (lambda (l)
+                  (if (equal (char-to-string l) letter)
+                      (setq match (char-to-string l))))
+            str)
+        match))
+
+(find-match-in-string "abCdef" "C")
 
 
 (provide 'item-priorities)
