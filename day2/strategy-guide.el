@@ -30,6 +30,11 @@
 ;; Y - Paper
 ;; Z - Scissors
 
+;; second-col round 2
+;; X - lose
+;; Y - draw
+;; Z - win
+
 ;; score-per-round
 ;; 1 - Rock
 ;; 2 - Paper
@@ -71,7 +76,7 @@
 
 (defun calc-round-winner (opp player)
     (cond
-        ((or (and (string-equal "A" opp) (string-equal "X" player))
+        ((or (and (string-equal "A" opp) (string-equal "Z" player))
              (and (string-equal "B" opp) (string-equal "Y" player))
              (and (string-equal "C" opp) (string-equal "Z" player)))
             (progn
@@ -86,6 +91,35 @@
              (and (string-equal "C" opp) (string-equal "Y" player)))
             (setq *opponent-score* (+ *opponent-score* 6)))))
 
+;; for part 2 - calculate needed choice
+(defun calc-needed-choice (opp res)
+    (cond
+        ;; you need to lose - opp win
+        ((string-equal res "X")
+            (cond
+                ;; rock - scissors
+                ((string-equal "A" opp) "Z")
+                ;; paper - rock
+                ((string-equal "B" opp) "X")
+                ;; scissors - paper
+                ((string-equal "C" opp) "Y")))
+        ;; draw
+        ((string-equal res "Y")
+            (cond
+                ((string-equal "A" opp) "X")
+                ((string-equal "B" opp) "Y")
+                ((string-equal "C" opp) "Z")))
+        ;; you need to win - opp lose
+        ((string-equal res "Z")
+            (cond
+                ;; rock - paper
+                ((string-equal "A" opp) "Y")
+                ;; paper - scissors
+                ((string-equal "B" opp) "Z")
+                ;; scissors - rock
+                ((string-equal "C" opp) "X")))))
+(calc-needed-choice "B" "Z")
+
 (defun calculate-scores (rounds-list)
     (dolist (curr-round rounds-list)
         (let ((opp (car curr-round))
@@ -96,10 +130,28 @@
                 (calc-round-winner opp player))))
     (list "player:" *player-score* " & " "opponent" *opponent-score*))
 
+(defun calculate-scores-pt-2 (rounds-list)
+    (dolist (curr-round rounds-list)
+        (let* ((opp (car curr-round))
+                  (res (car (cdr curr-round)))
+                  (player (calc-needed-choice opp res)))
+            (progn
+                (setq *opponent-score* (+ *opponent-score* (check-choice-pts opp)))
+                (setq *player-score* (+ *player-score* (check-choice-pts player)))
+                (calc-round-winner opp player))))
+    (list "player:" *player-score* " & " "opponent" *opponent-score*))
+
 (reset-scores)
 (calculate-scores (separate-round-data-to-lists *t-strategy-guide*))
 
+(reset-scores)
+(calculate-scores-pt-2 (separate-round-data-to-lists *t-strategy-guide*))
+
+(reset-scores)
 (calculate-scores (separate-round-data-to-lists *strategy-guide*))
+
+(reset-scores)
+(calculate-scores-pt-2 (separate-round-data-to-lists *strategy-guide*))
 
 (provide 'strategy-guide)
 ;;; strategy-guide.el ends here
